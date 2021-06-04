@@ -43,7 +43,7 @@ resource "azurerm_subnet" "sn" {
 }
 # Create our Azure Storage Account - jonnychipzsa
 resource "azurerm_storage_account" "rounaksa" {
-  name                     = "rounaksa"
+  name                     = "rounaksa2"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
