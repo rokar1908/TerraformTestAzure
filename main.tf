@@ -1,9 +1,9 @@
 terraform {
   backend "azurerm" {
-    resource_group_name   = "jonnychipz-infra"
-    storage_account_name  = "jonnychipztstate"
+    resource_group_name   = "rounak-infra"
+    storage_account_name  = "rounaktstate"
     container_name        = "tstate"
-    key                   = "77Q4LUB5o9wRdbPYDt+0kGZP+L8Sj9E/FNXg7lZBQS5z3mLod5cyan4wA19CR1SmlqIRUFQfhuQrPVaGzNhjGw=="
+    key                   = "K/3Qnb2gbx3Ns5IavKUsln/6lMXU+rOrLFrSQNbCoGvR+s8WsgGYL7csrbckcne2gyr0ZxkjkU7/3Zm/dvceqA=="
 }
 
   required_providers {
@@ -25,7 +25,7 @@ data "azurerm_client_config" "current" {}
 # Create our Resource Group - Jonnychipz-RG
 resource "azurerm_resource_group" "rg" {
   name     = "jonnychipz-app01"
-  location = "UK South"
+  location = "East US 2"
 }
 # Create our Virtual Network - Jonnychipz-VNET
 resource "azurerm_virtual_network" "vnet" {
@@ -42,8 +42,8 @@ resource "azurerm_subnet" "sn" {
   address_prefixes       = ["10.0.1.0/24"]
 }
 # Create our Azure Storage Account - jonnychipzsa
-resource "azurerm_storage_account" "jonnychipzsa" {
-  name                     = "jonnychipzsa"
+resource "azurerm_storage_account" "rounaksa" {
+  name                     = "rounaksa"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
