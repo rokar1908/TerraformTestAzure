@@ -3,7 +3,7 @@ terraform {
     resource_group_name   = "rounak-infra"
     storage_account_name  = "rounaktstate"
     container_name        = "tstate"
-    key                   = "K/3Qnb2gbx3Ns5IavKUsln/6lMXU+rOrLFrSQNbCoGvR+s8WsgGYL7csrbckcne2gyr0ZxkjkU7/3Zm/dvceqA=="
+    key                   = "J4QkzaxalJBhQ9pD9iXIPqIdzBZzdXwl62e04cJpBN8QEQMHVkAi/m2fpteoEJFw7ZB8BEpUumjoHH4E4cc1SA=="
 }
 
   required_providers {
@@ -89,5 +89,53 @@ resource "azurerm_virtual_machine" "jonnychipzvm01" {
     admin_password     = "Password123$"
   }
   os_profile_windows_config {
+  }
+}
+resource "azurerm_public_ip" "example" {
+  name                = "example-pip"
+  sku                 = "Standard"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+}
+
+resource "azurerm_lb" "example" {
+  name                = "example-lb"
+  sku                 = "Standard"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  frontend_ip_configuration {
+    name                 = azurerm_public_ip.example.name
+    public_ip_address_id = azurerm_public_ip.example.id
+  }
+}
+
+resource "azurerm_private_link_service" "example" {
+  name                = "example-privatelink"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  nat_ip_configuration {
+    name      = azurerm_public_ip.example.name
+    primary   = true
+    subnet_id = azurerm_subnet.sn.id
+  }
+
+  load_balancer_frontend_ip_configuration_ids = [
+    azurerm_lb.example.frontend_ip_configuration.0.id,
+  ]
+}
+
+resource "azurerm_private_endpoint" "example" {
+  name                = "example-endpoint"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  subnet_id           = azurerm_subnet.sn.id
+
+  private_service_connection {
+    name                           = "example-privateserviceconnection"
+    private_connection_resource_id = azurerm_private_link_service.example.id
+    is_manual_connection           = false
   }
 }
