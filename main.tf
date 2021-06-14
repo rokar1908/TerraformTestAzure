@@ -40,7 +40,7 @@ resource "azurerm_subnet" "sn" {
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes       = ["10.0.1.0/24"]
-  enforce_private_link_endpoint_network_policies = false
+  enforce_private_link_service_network_policies = true
 }
 resource "azurerm_subnet" "sn1" {
   name                 = "privatelink"
@@ -112,7 +112,6 @@ resource "azurerm_lb" "example" {
   sku                 = "Standard"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-
   frontend_ip_configuration {
     name                 = azurerm_public_ip.example.name
     public_ip_address_id = azurerm_public_ip.example.id
@@ -123,7 +122,6 @@ resource "azurerm_private_link_service" "example" {
   name                = "example-privatelink"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-
   nat_ip_configuration {
     name      = azurerm_public_ip.example.name
     primary   = true
