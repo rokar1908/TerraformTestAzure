@@ -42,6 +42,13 @@ resource "azurerm_subnet" "sn" {
   address_prefixes       = ["10.0.1.0/24"]
    enforce_private_link_endpoint_network_policies = true
 }
+resource "azurerm_subnet" "sn1" {
+  name                 = "VM"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes       = ["10.0.2.0/24"]
+   enforce_private_link_endpoint_network_policies = true
+}
 # Create our Azure Storage Account - jonnychipzsa
 resource "azurerm_storage_account" "rounaksa" {
   name                     = "rounaksa2"
@@ -132,7 +139,7 @@ resource "azurerm_private_endpoint" "example" {
   name                = "example-endpoint"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  subnet_id           = azurerm_subnet.sn.id
+  subnet_id           = azurerm_subnet.sn1.id
 
   private_service_connection {
     name                           = "example-privateserviceconnection"
