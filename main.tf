@@ -3,7 +3,7 @@ terraform {
     resource_group_name   = "rounak-infra"
     storage_account_name  = "rounaktstate"
     container_name        = "tstate"
-    key                   = "K/3Qnb2gbx3Ns5IavKUsln/6lMXU+rOrLFrSQNbCoGvR+s8WsgGYL7csrbckcne2gyr0ZxkjkU7/3Zm/dvceqA=="
+    key                   = "J4QkzaxalJBhQ9pD9iXIPqIdzBZzdXwl62e04cJpBN8QEQMHVkAi/m2fpteoEJFw7ZB8BEpUumjoHH4E4cc1SA=="
 }
 
   required_providers {
